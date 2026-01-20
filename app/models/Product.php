@@ -34,4 +34,26 @@ class Product
     }
 
 
+    public  function createProduct(string $name , string $description , float $price , int $stock , int $category_id, ?string $image = null):bool{
+        $sql = $this->conn->prepare("INSERT INTO products(name,description,price,stock,category_id,image) VALUES (:name,:description,:price,:stock,:category_id,:image)");
+        return $sql->execute([
+            ":name"=>$name,
+            ":description"=>$description,
+            ":price"=>$price,
+            ":stock"=>$stock,
+            ":category_id"=>$category_id,
+            ":image"=>$image
+
+        ]);
+    }
+
+    public function Update(int $id, array $data):bool{
+        $fields = [];
+        foreach ($data as $key => $value) {
+            $fields[] = "$key = :$key";
+        }
+
+
+    }
+
 }
