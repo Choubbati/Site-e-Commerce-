@@ -45,6 +45,10 @@ class ProductService
         unset($_SESSION["cart"][$productId]);
     }
 
+    public function getCart()
+    {
+        return $_SESSION["cart"] ?? [];
+    }
 
 
 
