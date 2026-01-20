@@ -52,8 +52,10 @@ class Product
         foreach ($data as $key => $value) {
             $fields[] = "$key = :$key";
         }
-
-
+        $sql = "UPDATE products SET ".implode(",", $fields)." WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $data[":id"] = $id;
+        return $stmt->execute($data);
     }
 
 }
