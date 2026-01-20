@@ -31,4 +31,9 @@ class Category
             ":id"=>$id
         ]);
     }
+
+    public function delete(int $id){
+        $sql = $this->conn->prepare("DELETE FROM categories WHERE id = :id");
+        return $sql->execute([":id"=>$id]);
+    }
 }
