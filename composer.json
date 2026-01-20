@@ -1,0 +1,22 @@
+{
+    "name": "chouaib/site-e-commerce",
+    "autoload": {
+        "psr-4": {
+            "Chouaib\\SiteECommerce\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "chouaib",
+            "email": "choubbati@gmail.com"
+        }
+    ],
+        "autoload": {
+        "psr-4": {
+            "app\\": "./"
+        }
+    },
+    "require": {
+      "ext-pdo": "*"
+    }
+}

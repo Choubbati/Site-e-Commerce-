@@ -1,0 +1,6 @@
+2026-01-20 10:24:21,923 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2026-01-20 10:24:21,928 INFO supervisord started with pid 1
+2026-01-20 10:24:22,931 INFO spawned: 'apache' with pid 7
+2026-01-20 10:24:22,935 INFO spawned: 'mysql' with pid 8
+2026-01-20 10:24:24,029 INFO success: apache entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2026-01-20 10:24:24,031 INFO success: mysql entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
