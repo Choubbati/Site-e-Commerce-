@@ -21,5 +21,17 @@ class Product
         return $sql->fetchAll();
     }
 
+    public function getProductById(int $id): ?array{
+        $sql = $this->conn->prepare("
+            SELECT p.id, p.name, p.description, p.price, p.stock, p.image, c.name AS category
+            FROM products p
+            LEFT JOIN categories c ON p.category_id = c.id
+            WHERE p.id = :id
+        ");
+        $sql->execute([":id" => $id]);
+
+        return $sql->fetch() ?: null;
+    }
+
 
 }
