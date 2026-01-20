@@ -40,6 +40,14 @@ class ProductService
     }
 
 
+    public function removeFromCart(int $productId)
+    {
+        unset($_SESSION["cart"][$productId]);
+    }
+
+
+
+
 
 
 }
