@@ -4,77 +4,45 @@ namespace app\app\controllers;
 
 use app\app\services\AuthService;
 
-class AuthController
-{
-    private AuthService $authService;
+class AuthController {
+    private AuthService $service;
 
-    public function __construct()
-    {
-        $this->authService=new AuthService();
+    public function __construct() {
+        $this->service = new AuthService();
     }
 
-    public function register()
+    public function showLogin() {
+        require __DIR__ . '/../../public/views/login.php';
+    }
+
+    public function showRegister() {
+        require __DIR__ . '/../views/register.php';
+    }
+
+    public function login()
     {
-        if($_SERVER['REQUEST_METHOD'] !== 'POST'){
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            require __DIR__ . '/../views/login.php';
             return;
         }
 
-        $name = trim($_POST['name'] ?? "");
-        $email = trim($_POST['email'] ?? "");
-        $password = trim($_POST['password'] ?? "");
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $email = $_POST['email'] ?? null;
+            $password = $_POST['password'] ?? null;
 
-        if (empty($name) || empty($email) || empty($password)) {
-            $_SESSION['error'] = "Tous les champs sont obligatoires";
-            header("Location: /register.php");
-            exit;
+            if (!$email || !$password) {
+                die('Email ou mot de passe manquant');
+            }
+
+            $this->authService->login($email, $password);
         }
-
-        $success = $this->authService->register($name, $email, $password);
-
-        if (!$success) {
-            $_SESSION['error'] = "Email déjà utilisé";
-            header("Location: /register.php");
-            exit;
-        }
-
-        $_SESSION['success'] = "Compte créé avec succès";
-        header("Location: /login.php");
-        exit;
     }
 
-    public function login(){
-        if($_SERVER['REQUEST_METHOD'] !== "POST"){
-            return;
-        }
-        $email = trim($_POST['email'] ?? "");
-        $password = trim($_POST['password'] ?? "");
 
-        if(empty($email) || empty($password)){
-            $_SESSION['error']="Email et Mot passe obligatoires";
-            header("Location: /login");
+    public function register() {
+        if ($this->service->register($_POST)) {
+            header('Location: index.php?page=login');
             exit;
         }
-        $user = $this->authService->login($email,$password);
-
-        if(!$user){
-            $_SESSION['error']="Email ou mot de passe incorrect";
-            header("Location: /login.php");
-            exit;
-        }
-
-        $_SESSION["user"] = [
-            'id' => $user['id'],
-            'name'=> $user['name'],
-            'email'=> $user['email'],
-            'role'=> $user['role'],
-        ];
-        header('Location: /dashboard.php');
-    }
-
-    public function logout()
-    {
-        session_destroy();
-        header("Location: /login.php");
-        exit;
     }
 }

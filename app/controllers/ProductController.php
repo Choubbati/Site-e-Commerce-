@@ -15,7 +15,7 @@ class ProductController
     }
 
     //afficher tous les produits
-    public function index(){
+    public function index():array{
         return $this->productService->getAll();
     }
 
