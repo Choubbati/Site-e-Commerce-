@@ -24,20 +24,27 @@ class AuthService {
         ]);
     }
 
-    public function login(string $email, string $password): bool {
-        $sql = "SELECT * FROM users WHERE email = :email";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute(['email' => $email]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($user && password_verify($password, $user['password'])) {
-            $_SESSION['user'] = [
-                'id' => $user['id'],
-                'name' => $user['name'],
-                'role' => $user['role']
-            ];
-            return true;
+
+    public function login(array $data)
+    {
+        $stmt = $this->db->prepare(
+            "SELECT * FROM users WHERE email = :email LIMIT 1"
+        );
+
+        $stmt->execute([
+            'email' => $data['email']
+        ]);
+
+        $user = $stmt->fetch(PDO::FETCH_OBJ);
+
+        if ($user && password_verify($data['password'], $user->password)) {
+            return $user;
         }
+
         return false;
     }
+
+
+
 }

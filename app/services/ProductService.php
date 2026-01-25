@@ -14,7 +14,7 @@ class ProductService
     }
 
     public function getAll(): array {
-        $sql = "SELECT * FROM products"; // بدون join
+        $sql = "SELECT * FROM products";
         $stmt = $this->pdo->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -26,28 +26,32 @@ class ProductService
     }
 
 
-    public function addToCart(int $productId,int $quantity = 1):void{
-        if(!isset($_SESSION["cart"])){
+    public function addToCart(int $productId, int $quantity = 1)
+    {
+        if (!isset($_SESSION['cart'])) {
             $_SESSION['cart'] = [];
         }
 
-        if (isset($_SESSION["cart"][$productId])){
+        if (isset($_SESSION['cart'][$productId])) {
             $_SESSION['cart'][$productId] += $quantity;
-        }else{
+        } else {
             $_SESSION['cart'][$productId] = $quantity;
         }
     }
 
-
     public function removeFromCart(int $productId)
     {
-        unset($_SESSION["cart"][$productId]);
+        if (isset($_SESSION['cart'][$productId])) {
+            unset($_SESSION['cart'][$productId]);
+        }
     }
 
-    public function getCart()
+    public function getCart(): array
     {
-        return $_SESSION["cart"] ?? [];
+        return $_SESSION['cart'] ?? [];
     }
+
+
 
 
 
